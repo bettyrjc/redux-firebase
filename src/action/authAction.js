@@ -2,6 +2,7 @@ import { types } from "../types/types";
 import { firebase, googleAuthProvider } from "../firebase/config";
 import Swal from "sweetalert2";
 import { uiFinishLoading, uiStartLoading } from "./ui";
+import { noteLogout } from "./notesAction";
 // las acciones no son mas que simple funciones.
 
 export const startLogin = (email, password) => {
@@ -61,6 +62,7 @@ export const startLogout = () => {
     await firebase.auth().signOut();
 
     dispatch(logout());
+    dispatch(noteLogout());
   };
 };
 

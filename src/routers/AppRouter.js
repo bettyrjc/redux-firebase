@@ -7,6 +7,7 @@ import { PublicRoute } from "./PublicRoute";
 import { AuthRouter } from "./AuthRouter";
 import { JournalScreen } from "../components/journal/JournalScreen";
 import { login } from "../action/authAction";
+import { startLoadingNotes } from "../action/notesAction";
 
 export const AppRouter = () => {
   const [checking, setChecking] = useState(true);
@@ -17,11 +18,14 @@ export const AppRouter = () => {
 
   //   para que se mantega logeado asi se recargue
   useEffect(() => {
-    firebase.auth().onAuthStateChanged((user) => {
+    firebase.auth().onAuthStateChanged(async (user) => {
       if (user?.uid) {
         dispatch(login(user.uid, user.displayName));
 
         setIsLoggedIn(true);
+
+        // que las notas queden almacena en el store
+        dispatch(startLoadingNotes(user.uid));
       } else {
         setIsLoggedIn(false);
       }
@@ -32,7 +36,7 @@ export const AppRouter = () => {
 
   //   loading
   if (checking) {
-    return <h1>Espera..</h1>;
+    return <h1>wait..</h1>;
   }
 
   return (
