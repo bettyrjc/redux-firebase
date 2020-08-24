@@ -19,6 +19,6 @@ export const fileUpload = async (file) => {
     }
   } catch (error) {
     console.log(error);
-    throw error;
+    return null;
   }
 };
